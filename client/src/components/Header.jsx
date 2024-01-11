@@ -8,6 +8,11 @@ const Header = (props) => {
       <Heading as={element} color={color}>
         {title}
       </Heading>
+      {/* {isNav ? 
+      <Button bg={'brand.100'} w={'150px'} marginLeft={'3rem'} id="joinRoom" onClick={handleSetUser}>
+          Join Room
+      </Button>
+      : null} */}
     </Flex>
   );
 };
