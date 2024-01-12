@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import "./Login.css";
+import useStore from '../../store/store.js';
 
-function Login() {
-  const [username, setUsername] = useState('');
+const Login = () => {
+  const username = useStore(state => state.username);
+  const setUsername = useStore(state => state.setUsername);
+
   const [isError, setIsError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     !username ? setIsError(true) : setIsError(false);
-    isError ? null : login(username);
+    if (isError) return;
+
+    
+    console.log(username);
   };
 
   const handleChange = (event) => {
     setUsername(event.target.value);
-
-    // If the username is not empty, set the error to false
     setIsError(false);
   }
-
 
   return (
     <Flex bg="brand.100" id="loginForm">
@@ -30,12 +33,11 @@ function Login() {
           mb={'10px'}
           color="black"
           onChange={handleChange}
-          onKeyDown={(e) => (e.key === 'Enter' ? handleSubmit(e) : null)}
           value={username}
         />
         {!isError ? null : (
           <FormErrorMessage mb={'10px'}>
-            Please enter a message
+            Please enter a username
           </FormErrorMessage>
         )}
         <Button

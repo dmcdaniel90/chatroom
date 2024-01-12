@@ -51,7 +51,7 @@ function App() {
   }, [room, user]);
 
   return (
-    <Login /> &&
+    <Login /> ||
     <Chat
       room={room}
       messagesReceived={messagesReceived}
