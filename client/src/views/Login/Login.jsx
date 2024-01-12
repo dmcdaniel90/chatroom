@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Button,
   Flex,
@@ -8,26 +7,15 @@ import {
   Input
 } from '@chakra-ui/react';
 import './Login.css';
-import useStore from '../../store/store.js';
+import useLoginStore from '../../store/useLoginStore.js';
 
 const Login = () => {
-  //const history = useHistory();
-
-  const username = useStore((state) => state.username);
-  const setUsername = useStore((state) => state.setUsername);
-  const setIsLoggedIn = useStore((state) => state.setIsLoggedIn);
-
-  const [isError, setIsError] = useState(false);
+  const { username, setUsername, setIsLoggedIn, isError, setIsError } =
+    useLoginStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    !username ? setIsError(true) : setIsError(false);
-    if (isError) return;
-
-    console.log(username);
-
-    setIsLoggedIn(true);
+    !username ? setIsError(true) : setIsLoggedIn(true);
   };
 
   const handleChange = (event) => {
