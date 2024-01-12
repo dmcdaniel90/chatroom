@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import useCurrentTime from '../hooks/useCurrentTime.jsx';
+import useCurrentTime from '../../hooks/useCurrentTime.jsx';
 
 const Message = (props) => {
   const { message, sender } = props;

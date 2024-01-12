@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
-const EnterMessage = (props) => {
+const MessageInput = (props) => {
   const {
     bgcolor,
     textColor,
@@ -66,4 +66,4 @@ const EnterMessage = (props) => {
   );
 };
 
-export default EnterMessage;
+export default MessageInput;
