@@ -1,5 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react';
+//import { Router, Route, Redirect, Switch } from 'react-router-dom';
+import useStore from './store/store';
 import Login from './views/Login/Login';
 import Chat from './views/Chat/Chat';
 import io from 'socket.io-client';
@@ -14,10 +16,16 @@ function App() {
   const [room, setRoom] = useState('');
   const [updateKey, setUpdateKey] = useState(0);
 
+  const { username, isLoggedIn, setIsLoggedIn } = useStore();
+
+  const login = () => {
+    setIsLoggedIn(true);
+  };
+
   useEffect(() => {
-    setUser('Devin');
+    setUser(username);
     setRoom("Dev's Room");
-  }, []);
+  }, [username]);
 
   const sendMessage = () => {
     socket.emit('send_message', { room, messageOutgoing, user });
@@ -51,17 +59,35 @@ function App() {
   }, [room, user]);
 
   return (
-    <Login /> ||
-    <Chat
-      room={room}
-      messagesReceived={messagesReceived}
-      messageSender={messageSender}
-      updateKey={updateKey}
-      sendMessage={sendMessage}
-      setMessageOutgoing={setMessageOutgoing}
-      messageOutgoing={messageOutgoing}
-    />
+    <>
+      {isLoggedIn ? (
+        <Chat
+          room={room}
+          messagesReceived={messagesReceived}
+          messageSender={messageSender}
+          updateKey={updateKey}
+          sendMessage={sendMessage}
+          setMessageOutgoing={setMessageOutgoing}
+          messageOutgoing={messageOutgoing}
+        />
+      ) : (
+        <Login onLogin={login} />
+      )}
+    </>
   );
 }
 
 export default App;
+
+{
+  /* <Login /> ||
+    <Chat
+    room={room}
+    messagesReceived={messagesReceived}
+    messageSender={messageSender}
+    updateKey={updateKey}
+    sendMessage={sendMessage}
+    setMessageOutgoing={setMessageOutgoing}
+    messageOutgoing={messageOutgoing}
+    /> */
+}

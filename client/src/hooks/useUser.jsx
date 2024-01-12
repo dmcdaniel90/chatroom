@@ -22,7 +22,7 @@ function useUser() {
   const save = () => {
     const userData = toJSON();
     console.log({ userData });
-  
+
     //localStorage.setItem('user', JSON.stringify(user));
 
     return true;
@@ -45,7 +45,7 @@ function useUser() {
     setMessageId,
     toJSON,
     save
-  )
+  );
 }
 
 export default useUser;

@@ -1,11 +1,10 @@
-import { create } from "zustand";
-import io from 'socket.io-client';
-import useUser from "../hooks/useUser";
-
+import { create } from 'zustand';
 
 const useStore = create((set) => ({
-  username: "",
+  username: '',
   setUsername: (username) => set({ username }),
-}))
+  isLoggedIn: false,
+  setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn })
+}));
 
 export default useStore;
