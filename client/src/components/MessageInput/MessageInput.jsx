@@ -6,33 +6,37 @@ import {
   FormLabel,
   FormErrorMessage
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import useMessageStore from '../../store/useMessageStore';
+import useLoginStore from '../../store/useLoginStore';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:3000');
 
 const MessageInput = (props) => {
   const {
     bgcolor,
     textColor,
     btnTextColor,
-    btnColor,
-    sendMessage,
-    setMessageOutgoing,
-    messageOutgoing
+    btnColor
   } = props;
-  const [isError, setIsError] = useState(false);
+
+  const { message, setMessage, isError, setIsError } = useMessageStore();
+  const { username, room } = useLoginStore();
 
   const handleClick = (e) => {
     e.preventDefault();
-
-    !messageOutgoing ? setIsError(true) : setIsError(false);
-    isError ? null : sendMessage();
-
-    setMessageOutgoing('');
+    !message ? setIsError(true) : handleSendMessage();
   };
 
   const handleChange = (e) => {
+    setMessage(e.target.value);
     setIsError(false);
-    setMessageOutgoing(e.target.value);
   };
+
+  const handleSendMessage = () => {
+    socket.emit('send_message', { room, messageOutgoing: { username, message, key: socket.id } });
+    setMessage('');
+  }
 
   return (
     <Flex h="95%" bg={bgcolor} p={'10px'} borderRadius={'10px'}>
@@ -44,7 +48,7 @@ const MessageInput = (props) => {
           color={textColor ? textColor : null}
           onChange={(e) => handleChange(e)}
           onKeyDown={(e) => (e.key === 'Enter' ? handleClick(e) : null)}
-          value={messageOutgoing}
+          value={message}
         />
         {!isError ? null : (
           <FormErrorMessage mb={'10px'}>

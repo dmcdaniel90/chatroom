@@ -1,6 +1,7 @@
 import { Flex, Heading } from '@chakra-ui/react';
+import { memo } from 'react';
 
-const Header = (props) => {
+const Header = memo((props) => {
   const { padding, borderBottom, color, element, title } = props;
 
   return (
@@ -15,6 +16,6 @@ const Header = (props) => {
       : null} */}
     </Flex>
   );
-};
+})
 
 export default Header;

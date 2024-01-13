@@ -8,7 +8,7 @@ const useLoginStore = create((set) => ({
   isError: false,
   setIsError: (isError) => set({ isError }),
   room: '',
-  setRoom: (room) => set({ room }),
+  setRoom: (room) => set({ room })
 }));
 
 export default useLoginStore;

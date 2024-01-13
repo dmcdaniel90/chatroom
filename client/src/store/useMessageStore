@@ -1,0 +1,14 @@
+import { create } from 'zustand';
+
+const useMessageStore = create((set) => ({
+  message: '',
+  setMessage: (message) => set((state) => ({ message })),
+  messagesReceived: [],
+  setMessagesReceived: (message) => set((state) => ({ messagesReceived: [...state.messagesReceived, message] })),
+  isError: false,
+  setIsError: (isError) => set((state) => ({ isError: isError })),
+  messageKey: 0,
+  incrementMessageKey: () => set((state) => ({ messageKey: state.messageKey + 1 })),
+}));
+
+export default useMessageStore;

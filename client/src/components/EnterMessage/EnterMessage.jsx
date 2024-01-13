@@ -1,9 +1,8 @@
 import { GridItem } from '@chakra-ui/react';
 import MessageInput from '../MessageInput/MessageInput';
+import { memo } from 'react';
 
-const EnterMessage = (props) => {
-  const { sendMessage, setMessageOutgoing, messageOutgoing } = props;
-
+const EnterMessage = memo(() => {
   return (
     <GridItem
       colSpan={5}
@@ -17,12 +16,9 @@ const EnterMessage = (props) => {
         textColor="black"
         btnTextColor="white"
         btnColor="brand.200"
-        sendMessage={sendMessage}
-        setMessageOutgoing={setMessageOutgoing}
-        messageOutgoing={messageOutgoing}
       />
     </GridItem>
   );
-};
+});
 
 export default EnterMessage;

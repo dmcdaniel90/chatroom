@@ -1,9 +1,25 @@
 import { Flex, GridItem, VStack } from '@chakra-ui/react';
 import Header from '../Header/Header';
 import Message from '../Message/Message';
+import { memo, useEffect } from 'react';
+import io from 'socket.io-client';
+import useMessageStore from '../../store/useMessageStore';
+import useLoginStore from '../../store/useLoginStore';
 
-const MessageViewer = (props) => {
-  const { room, messagesReceived, messageSender, updateKey } = props;
+const socket = io.connect('http://localhost:3000');
+
+const MessageViewer = () => {
+  const { room } = useLoginStore();
+  const { messagesReceived, setMessagesReceived, messageKey, incrementMessageKey } = useMessageStore();
+
+  useEffect(() => {
+    socket.on('receive_message', (data) => {
+      console.log('Receive message event received', data);
+      setMessagesReceived(data.messageOutgoing);
+      incrementMessageKey();
+    });
+  }, []);
+
 
   return (
     <GridItem
@@ -36,11 +52,12 @@ const MessageViewer = (props) => {
             whiteSpace: 'normal'
           }}
         >
-          {messagesReceived.map((message) => (
+          {
+            messagesReceived.map((messageReceived) => (
             <Message
-              key={updateKey}
-              message={message.messageOutgoing}
-              sender={messageSender}
+              key={messageReceived.key}
+              message={messageReceived.message}
+              sender={messageReceived.username}
             />
           ))}
         </VStack>

@@ -8,7 +8,6 @@ const Chat = (props) => {
     room,
     messagesReceived,
     messageSender,
-    updateKey,
     sendMessage,
     setMessageOutgoing,
     messageOutgoing
@@ -28,7 +27,6 @@ const Chat = (props) => {
         room={room}
         messagesReceived={messagesReceived}
         messageSender={messageSender}
-        updateKey={updateKey}
       />
       <EnterMessage
         sendMessage={sendMessage}

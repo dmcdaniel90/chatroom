@@ -9,22 +9,22 @@ import io from 'socket.io-client';
 const socket = io.connect('http://localhost:3000');
 
 function App() {
-  const [messageOutgoing, setMessageOutgoing] = useState('');
-  const [messagesReceived, setMessagesReceived] = useState([]);
   const [messageSender, setMessageSender] = useState('');
-  const [user, setUser] = useState('');
-  const [updateKey, setUpdateKey] = useState(0);
 
   const { username, isLoggedIn, room } = useLoginStore();
-  //const { users, addUser } = useUserStore();
 
-  useEffect(() => {
-    isLoggedIn && setUser(username);
-  }, [isLoggedIn]);
+  // const sendMessage = () => {
+  //   socket.emit('send_message', { room, messageOutgoing, username });
+  // };
 
-  const sendMessage = () => {
-    socket.emit('send_message', { room, messageOutgoing, user });
-  };
+  // socket.on('receive_message', (data) => {
+  //   console.log('Receive message event received');
+  //   setMessageSender(data.user);
+  //   setMessagesReceived((prevMessages) => [
+  //     ...prevMessages,
+  //     { messageOutgoing: data.messageOutgoing }
+  //   ]);
+  // });
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -35,34 +35,23 @@ function App() {
       console.log('Disconnected from server');
     });
 
-    socket.on('receive_message', (data) => {
-      console.log(data);
-      setMessageSender(data.user);
-      setMessagesReceived((prevMessages) => [
-        ...prevMessages,
-        { messageOutgoing: data.messageOutgoing }
-      ]);
-      setUpdateKey((prevKey) => prevKey + 1);
-    });
-
     return () => {
       socket.off('connect');
       socket.off('disconnect');
-      socket.off('receive_message');
+      // socket.off('receive_message');
     };
-  }, [room, user]);
+  }, []);
 
   return (
     <>
       {isLoggedIn ? (
         <Chat
           room={room}
-          messagesReceived={messagesReceived}
-          messageSender={messageSender}
-          updateKey={updateKey}
-          sendMessage={sendMessage}
-          setMessageOutgoing={setMessageOutgoing}
-          messageOutgoing={messageOutgoing}
+          // messagesReceived={messagesReceived}
+          // messageSender={messageSender}
+          // sendMessage={sendMessage}
+          // setMessageOutgoing={setMessageOutgoing}
+          // messageOutgoing={messageOutgoing}
         />
       ) : (
         <Login />

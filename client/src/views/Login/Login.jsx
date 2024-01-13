@@ -11,8 +11,7 @@ import useLoginStore from '../../store/useLoginStore.js';
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:3000');
-
-const room = "My Room";
+const room = 'General Chat';
 
 const Login = () => {
   const { username, setUsername, setIsLoggedIn, isError, setIsError, setRoom } =
@@ -31,14 +30,12 @@ const Login = () => {
   const handleLogin = () => {
     socket.emit('set_username', username);
     socket.emit('join_room', { room, username });
-    socket.on('joined_room', () => {
-      console.log('Joined room');
+    socket.on('joined_room', ({ room, username }) => {
+      console.log(`Login successful. You have joined '${room}' as ${username}`);
       setRoom(room);
       setIsLoggedIn(true);
     });
-  }
-
-  
+  };
 
   return (
     <Flex bg="brand.100" id="loginForm">
