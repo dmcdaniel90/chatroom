@@ -8,20 +8,37 @@ import {
 } from '@chakra-ui/react';
 import './Login.css';
 import useLoginStore from '../../store/useLoginStore.js';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:3000');
+
+const room = "My Room";
 
 const Login = () => {
-  const { username, setUsername, setIsLoggedIn, isError, setIsError } =
+  const { username, setUsername, setIsLoggedIn, isError, setIsError, setRoom } =
     useLoginStore();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    !username ? setIsError(true) : setIsLoggedIn(true);
-  };
 
   const handleChange = (event) => {
     setUsername(event.target.value);
     setIsError(false);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    !username ? setIsError(true) : handleLogin();
+  };
+
+  const handleLogin = () => {
+    socket.emit('set_username', username);
+    socket.emit('join_room', { room, username });
+    socket.on('joined_room', () => {
+      console.log('Joined room');
+      setRoom(room);
+      setIsLoggedIn(true);
+    });
+  }
+
+  
 
   return (
     <Flex bg="brand.100" id="loginForm">

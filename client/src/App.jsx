@@ -13,16 +13,14 @@ function App() {
   const [messagesReceived, setMessagesReceived] = useState([]);
   const [messageSender, setMessageSender] = useState('');
   const [user, setUser] = useState('');
-  const [room, setRoom] = useState('');
   const [updateKey, setUpdateKey] = useState(0);
 
-  const { username, isLoggedIn } = useLoginStore();
+  const { username, isLoggedIn, room } = useLoginStore();
   //const { users, addUser } = useUserStore();
 
   useEffect(() => {
-    setUser(username);
-    setRoom("Dev's Room");
-  }, [username]);
+    isLoggedIn && setUser(username);
+  }, [isLoggedIn]);
 
   const sendMessage = () => {
     socket.emit('send_message', { room, messageOutgoing, user });
@@ -31,7 +29,6 @@ function App() {
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected to server');
-      socket.emit('join_room', { room, user });
     });
 
     socket.on('disconnect', () => {

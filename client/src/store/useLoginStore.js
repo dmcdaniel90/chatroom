@@ -6,7 +6,9 @@ const useLoginStore = create((set) => ({
   isLoggedIn: false,
   setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
   isError: false,
-  setIsError: (isError) => set({ isError })
+  setIsError: (isError) => set({ isError }),
+  room: '',
+  setRoom: (room) => set({ room }),
 }));
 
 export default useLoginStore;
