@@ -20,13 +20,14 @@ io.on('connection', (socket) => {
   })
 
   socket.on('send_message', (data) => {
-    socket.to(data.room).emit('receive_message', data)
+    socket.broadcast.emit('receive_message', data)
+    console.log(data)
   })
 
   socket.on('join_room', (data) => {
     socket.join(data.room)
     console.log(`User with ID: ${data.username} joined room: ${data.room}`)
-    socket.emit('joined_room')
+    socket.emit('joined_room', data)
   })
 })
 
