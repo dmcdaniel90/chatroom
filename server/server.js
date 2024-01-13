@@ -3,6 +3,7 @@ const { createServer } = require('http')
 const { Server } = require('socket.io')
 
 const app = express()
+const PORT = process.env.PORT || 3000
 const server = createServer(app)
 
 const io = new Server(server, {
@@ -13,7 +14,10 @@ const io = new Server(server, {
 })
 
 io.on('connection', (socket) => {
-  console.log(`User connected: ${socket.id}`)
+  socket.on('set_username', (username) => {
+    socket.username = username
+    console.log(`Username set: ${username}`)
+  })
 
   socket.on('send_message', (data) => {
     socket.to(data.room).emit('receive_message', data)
@@ -21,10 +25,12 @@ io.on('connection', (socket) => {
 
   socket.on('join_room', (data) => {
     socket.join(data.room)
-    console.log(`User with ID: ${data.user} joined room: ${data.room}`)
+    console.log(`User with ID: ${data.username} joined room: ${data.room}`)
+    socket.emit('joined_room')
   })
 })
 
-server.listen(3000, () => {
+
+server.listen(PORT, () => {
   console.log('Server running on port 3000')
 })
