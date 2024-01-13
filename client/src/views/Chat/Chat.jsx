@@ -3,16 +3,7 @@ import MessageViewer from '../../components/MessageViewer/MessageViewer';
 import EnterMessage from '../../components/EnterMessage/EnterMessage';
 //import Navbar from '../../components/Navbar/Navbar'
 
-const Chat = (props) => {
-  const {
-    room,
-    messagesReceived,
-    messageSender,
-    sendMessage,
-    setMessageOutgoing,
-    messageOutgoing
-  } = props;
-
+const Chat = () => {
   return (
     <Grid
       h="100vh"
@@ -23,16 +14,8 @@ const Chat = (props) => {
       as={'main'}
     >
       {/* <Navbar /> */}
-      <MessageViewer
-        room={room}
-        messagesReceived={messagesReceived}
-        messageSender={messageSender}
-      />
-      <EnterMessage
-        sendMessage={sendMessage}
-        setMessageOutgoing={setMessageOutgoing}
-        messageOutgoing={messageOutgoing}
-      />
+      <MessageViewer />
+      <EnterMessage />
     </Grid>
   );
 };

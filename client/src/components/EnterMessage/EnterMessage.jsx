@@ -21,4 +21,5 @@ const EnterMessage = memo(() => {
   );
 });
 
+EnterMessage.displayName = 'EnterMessage';
 export default EnterMessage;

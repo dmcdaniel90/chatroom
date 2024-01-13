@@ -16,6 +16,7 @@ const Header = memo((props) => {
       : null} */}
     </Flex>
   );
-})
+});
 
+Header.displayName = 'Header';
 export default Header;

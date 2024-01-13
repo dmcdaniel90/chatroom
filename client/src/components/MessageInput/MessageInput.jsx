@@ -6,19 +6,12 @@ import {
   FormLabel,
   FormErrorMessage
 } from '@chakra-ui/react';
-import useMessageStore from '../../store/useMessageStore';
+import useMessageStore from '../../store/useMessageStore.js';
 import useLoginStore from '../../store/useLoginStore';
-import io from 'socket.io-client';
-
-const socket = io.connect('http://localhost:3000');
+import socket from '../../utils/socket.js';
 
 const MessageInput = (props) => {
-  const {
-    bgcolor,
-    textColor,
-    btnTextColor,
-    btnColor
-  } = props;
+  const { bgcolor, textColor, btnTextColor, btnColor } = props;
 
   const { message, setMessage, isError, setIsError } = useMessageStore();
   const { username, room } = useLoginStore();
@@ -34,9 +27,12 @@ const MessageInput = (props) => {
   };
 
   const handleSendMessage = () => {
-    socket.emit('send_message', { room, messageOutgoing: { username, message, key: socket.id } });
+    socket.emit('send_message', {
+      room,
+      messageOutgoing: { username, message, key: socket.id }
+    });
     setMessage('');
-  }
+  };
 
   return (
     <Flex h="95%" bg={bgcolor} p={'10px'} borderRadius={'10px'}>
